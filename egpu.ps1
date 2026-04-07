@@ -26,14 +26,14 @@ do {
 
     switch ($Choice) {
         '1' {
-            Write-Host "`n⏳ 正在呼叫系统扫描即插即用硬件设备..." -ForegroundColor Yellow
+            Write-Host "正在呼叫系统扫描即插即用硬件设备..." -ForegroundColor Yellow
             # 调用 Windows 自带的 PnP 工具扫描硬件
             pnputil /scan-devices
-            Write-Host "✅ 扫描完成！如果您已连接并开启 eGPU，它应该已经上线。" -ForegroundColor Green
+            Write-Host "扫描完成！如果您已连接并开启 eGPU，它应该已经上线。" -ForegroundColor Green
             Pause
         }
         '2' {
-            Write-Host "`n🔍 当前系统中的显示适配器 (显卡) 如下：" -ForegroundColor Yellow
+            Write-Host "当前系统中的显示适配器 (显卡) 如下：" -ForegroundColor Yellow
             Write-Host "-------------------------------------------------"
             
             # 获取所有显卡设备
@@ -52,23 +52,23 @@ do {
             try {
                 $SelectedGPU = $GPUs[[int]$GpuIndex - 1]
                 if ($SelectedGPU.Status -eq "OK") {
-                    Write-Host "`n⚠️ 警告: 禁用前请确保已关闭所有正在使用该显卡的程序（游戏、浏览器、渲染软件等）！" -ForegroundColor Red
+                    Write-Host "警告: 禁用前请确保已关闭所有正在使用该显卡的程序（游戏、浏览器、渲染软件等）！" -ForegroundColor Red
                     $Confirm = Read-Host "确定要【禁用】 $($SelectedGPU.FriendlyName) 吗？(y/n)"
                     if ($Confirm -match "^[yY]$") {
-                        Write-Host "⏳ 正在禁用设备，屏幕可能会闪烁，请稍候..." -ForegroundColor Yellow
+                        Write-Host "正在禁用设备，屏幕可能会闪烁，请稍候..." -ForegroundColor Yellow
                         Disable-PnpDevice -InstanceId $SelectedGPU.InstanceId -Confirm:$false
-                        Write-Host "✅ 禁用成功！现在您可以安全拔出 Oculink 线缆了。" -ForegroundColor Green
+                        Write-Host "禁用成功！现在您可以安全拔出 Oculink 线缆了。" -ForegroundColor Green
                     }
                 } else {
                     $Confirm = Read-Host "确定要【启用】 $($SelectedGPU.FriendlyName) 吗？(y/n)"
                     if ($Confirm -match "^[yY]$") {
-                        Write-Host "⏳ 正在启用设备，屏幕可能会闪烁，请稍候..." -ForegroundColor Yellow
+                        Write-Host "正在启用设备，屏幕可能会闪烁，请稍候..." -ForegroundColor Yellow
                         Enable-PnpDevice -InstanceId $SelectedGPU.InstanceId -Confirm:$false
-                        Write-Host "✅ 启用成功！" -ForegroundColor Green
+                        Write-Host "启用成功！" -ForegroundColor Green
                     }
                 }
             } catch {
-                Write-Host "❌ 输入无效或操作失败。" -ForegroundColor Red
+                Write-Host "输入无效或操作失败。" -ForegroundColor Red
             }
             Pause
         }
@@ -77,7 +77,7 @@ do {
             Exit
         }
         default {
-            Write-Host "❌ 选择无效，请重试。" -ForegroundColor Red
+            Write-Host "选择无效，请重试。" -ForegroundColor Red
             Start-Sleep -Seconds 1
         }
     }
