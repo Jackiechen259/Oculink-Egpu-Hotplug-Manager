@@ -16,7 +16,7 @@
 快速使用
 
 1. 物理连接并给 eGPU 供电。
-1. 以管理员身份运行：
+2. 以管理员身份运行：
 
 ```powershell
 PowerShell -ExecutionPolicy Bypass -File .\egpu.ps1
